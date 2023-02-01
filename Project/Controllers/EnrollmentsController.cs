@@ -23,7 +23,9 @@ namespace Shop_Project.Controllers
         // GET: Enrollments
         public async Task<IActionResult> Index()
         {
-          
+
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+
             return View(await _enrollmentRepository.ModelAllAsync());
         }
 
@@ -151,6 +153,8 @@ namespace Shop_Project.Controllers
             }
             var enrollment = await _enrollmentRepository.ModelIdAsync(id);
 
+
+            TempData["ErrorEnrollment"] = $"Deleted Enrollment {enrollment.Count}";
             await _enrollmentRepository.ModelDeleteAsync(enrollment);
             return RedirectToAction(nameof(Index));
         }

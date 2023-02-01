@@ -5,10 +5,22 @@
 }
 
 <h1>Category</h1>
+@if (ViewBag.Hidding)
+    {
+    <p>
+    <a class ="btn btn-primary" asp-action="Create">Create New</a>
+</p>}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if(TempData.Peek("ErrorCategory") != null)
+    {
+    <div class="alert alert-success">
+        <p>
+            @TempData["ErrorCategory"]
+        </p>
+
+    </div>
+
+    }
 <table class="table">
     <thead>
         <tr>
@@ -31,9 +43,22 @@
                 @Html.DisplayFor(modelItem => item.Salary)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                    @if(ViewBag.Hidding)
+                        {
+
+                        <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                        }
+
+                    else
+                        {
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        }
+
+                   
             </td>
         </tr>
 }

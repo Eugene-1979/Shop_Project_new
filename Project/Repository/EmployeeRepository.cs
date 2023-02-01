@@ -14,7 +14,9 @@ namespace Shop_Project.Repository
             _context = context;
             }
 
-       async public Task ModelAddAsync(Employee model)
+      
+
+        async public Task ModelAddAsync(Employee model)
             {
             _context.Add(model);
             await _context.SaveChangesAsync();
@@ -49,5 +51,15 @@ namespace Shop_Project.Repository
             _context.Update(model);
             await _context.SaveChangesAsync();
             }
+
+
+
+        public (bool, string) CheckModel(Employee model, string method)
+            {
+            throw new NotImplementedException();
+            }
+
+
+
         }
     }

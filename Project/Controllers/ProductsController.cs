@@ -25,6 +25,11 @@ namespace Shop_Project.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
+
+        
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+
+       
             return View(await _productRepository.ModelAllAsync());
         }
 
@@ -46,7 +51,7 @@ namespace Shop_Project.Controllers
         }
 
         // GET: Products/Create
-        [Authorize(Roles ="Admin")]
+       /* [Authorize(Roles ="Admin")]*/
         public IActionResult Create()
         {
     
@@ -61,18 +66,22 @@ namespace Shop_Project.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,Sale,CategoryId,About,Reviews")] Product product)
         {
 
-            /*  product.Category = _productRepository._context.Categorys.First(q => q.Id == product.CategoryId);*/
-            (bool, string) value = _productRepository.CheckModel(product);
+         
+            var temp=  _productRepository.CheckModel(product,nameof(Create));
+            string value = temp.Item2;
 
-            if(value.Item1/*ModelState.IsValid*/)
+         TempData["ErrorProduct"] = value;
+
+            ModelState.Remove("Category");
+            if(ModelState.IsValid && temp.Item1)
                 {
             
                 await _productRepository.ModelAddAsync(product);
                 return RedirectToAction(nameof(Index));
             }
-            Log.LogInformation($"Create {DateTime.Now.ToString("d")} {this.GetType().Name} {value.Item2}");
+            Log.LogInformation($"Create {DateTime.Now.ToString("d")} {this.GetType().Name} {value}");
+
           
-            ViewData["Error"] = value.Item2;
             ViewData["CategoryId"] = new SelectList(_productRepository._context.Categorys, "Id", "Name", product.CategoryId);
             return View(product);
         }
@@ -104,7 +113,10 @@ namespace Shop_Project.Controllers
 
 
         /*My Validasion*/
-            (bool, string) value = _productRepository.CheckModel(product);
+           var temp= _productRepository.CheckModel(product, nameof(Edit));
+            string value = temp.Item2;
+            TempData["ErrorProduct"] = value;
+
 
             if (id != product.Id)
             {
@@ -114,7 +126,7 @@ namespace Shop_Project.Controllers
 
             ModelState.Remove(nameof(Category));
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && temp.Item1)
             {
                 try
                 {
@@ -134,8 +146,8 @@ namespace Shop_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            Log.LogInformation($"Create {DateTime.Now.ToString("d")} {this.GetType().Name} {value.Item2}");
-            ViewData["Error"] = value.Item2;
+            Log.LogInformation($"Edit {DateTime.Now.ToString("d")} {this.GetType().Name} {value}");
+            
 
 
             ViewData["CategoryId"] = new SelectList(_productRepository._context.Categorys, "Id", "Name", product.CategoryId);
@@ -170,7 +182,7 @@ namespace Shop_Project.Controllers
             }
             var product = await _productRepository.ModelIdAsync(id);
 
-
+            TempData["ErrorProduct"] = $"Deleted Product {product.Name}";
             await _productRepository.ModelDeleteAsync(product);
             return RedirectToAction(nameof(Index));
         }

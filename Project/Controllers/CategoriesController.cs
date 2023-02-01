@@ -16,15 +16,19 @@ namespace Shop_Project.Controllers
        
         private readonly CategoryRepository _categoryRepository;
 
-        public CategoriesController(CategoryRepository categoryRepository)
+        public ILogger Log { get; }
+
+        public CategoriesController(CategoryRepository categoryRepository, ILogger<CategoriesController> log)
             {
-            
+             Log = log;
             _categoryRepository = categoryRepository;
             }
 
         // GET: Categories
         public async Task<IActionResult> Index()
             {
+
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
             return _categoryRepository._context.Categorys != null ?
                         View(await _categoryRepository.ModelAllAsync()) : /*repository*/
                         Problem("Entity set 'AppDbContent.Categorys'  is null.");
@@ -59,11 +63,21 @@ namespace Shop_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Salary")] Category category)
             {
-            if(ModelState.IsValid)
+
+            var temp = _categoryRepository.CheckModel(category, nameof(Create));
+            string value = temp.Item2;
+            TempData["ErrorCategory"] = value;
+
+
+
+            if(ModelState.IsValid && temp.Item1)
                 {
                await _categoryRepository.ModelAddAsync(category);/*repository*/
                 return RedirectToAction(nameof(Index));
                 }
+
+            Log.LogInformation($"Create {DateTime.Now.ToString("d")} {this.GetType().Name} {value}");
+
             return View(category);
             }
 
@@ -88,12 +102,22 @@ namespace Shop_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Salary")] Category category)
             {
+
+
+            var temp = _categoryRepository.CheckModel(category, nameof(Edit));
+            string value = temp.Item2;
+            TempData["ErrorCategory"] = value;
+
+
+
+
+
             if(id != category.Id)
                 {
                 return NotFound();
                 }
 
-            if(ModelState.IsValid)
+            if(ModelState.IsValid && temp.Item1)
                 {
                 try
                     {
@@ -113,6 +137,13 @@ namespace Shop_Project.Controllers
                     }
                 return RedirectToAction(nameof(Index));
                 }
+
+            Log.LogInformation($"Edit {DateTime.Now.ToString("d")} {this.GetType().Name} {value}");
+
+
+
+
+
             return View(category);
             }
 
@@ -144,7 +175,7 @@ namespace Shop_Project.Controllers
                 }
             var category = await _categoryRepository.ModelIdAsync(id); /*repository*/
 
-
+            TempData["ErrorCategory"] = $"Deleted Category{category.Name}";
             await _categoryRepository.ModelDeleteAsync(category);
             return RedirectToAction(nameof(Index));
             }

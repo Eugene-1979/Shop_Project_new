@@ -23,7 +23,10 @@ namespace Shop_Project.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-              return _employeeRepository._context.Employees != null ? 
+
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+
+            return _employeeRepository._context.Employees != null ? 
                           View(await _employeeRepository.ModelAllAsync()) :
                           Problem("Entity set 'AppDbContent.Employees'  is null.");
         }
@@ -144,7 +147,7 @@ namespace Shop_Project.Controllers
             }
             var employee = await _employeeRepository.ModelIdAsync(id);
 
-
+            TempData["ErrorEmployee"] = $"Deleted Employee{employee.Name}";
             await _employeeRepository.ModelDeleteAsync(employee);
             return RedirectToAction(nameof(Index));
         }

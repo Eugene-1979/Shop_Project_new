@@ -5,10 +5,21 @@
 }
 
 <h1>Index</h1>
+@if (ViewBag.Hidding)
+    {
+    <p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>}
+@if(TempData.Peek("ErrorEnrollment") != null)
+    {
+    <div class="alert alert-success">
+        <p>
+            @TempData["ErrorEnrollment"]
+        </p>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    </div>
+
+    }
 <table class="table">
     <thead>
         <tr>
@@ -37,9 +48,23 @@
                 @Html.DisplayFor(modelItem => item.Count)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+
+                    @if(ViewBag.Hidding)
+                        {
+                             @Html.ActionLink("Edit", "Edit", new { @class="btn btn-success" }) 
+                    @Html.ActionLink("Details", "Details", new { @class="btn btn-info"}) 
+                @Html.ActionLink("Delete", "Delete", new { @class="btn btn-danger"})
+
+
+                        }
+
+                    else
+                        {
+                        @Html.ActionLink("Details", "Details", new { @class="btn btn-info"})
+                        }
+
+
+                   
             </td>
         </tr>
 }

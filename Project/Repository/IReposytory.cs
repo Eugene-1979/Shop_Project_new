@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shop_Project.Db;
 using Shop_Project.Models;
 
 namespace Shop_Project.Repository
@@ -16,7 +17,9 @@ namespace Shop_Project.Repository
 
         bool ModelExist(int id);
 
-        
+
+        (bool, string) CheckModel(T model, string method);
+          
 
 
         }

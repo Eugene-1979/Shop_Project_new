@@ -23,7 +23,8 @@ namespace Shop_Project.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+
             return View(await _orderRepository.ModelAllAsync());
         }
 
@@ -160,7 +161,9 @@ namespace Shop_Project.Controllers
                 return Problem("Entity set 'AppDbContent.Orders'  is null.");
             }
             var order = await _orderRepository.ModelIdAsync(id);
-          
+
+
+            TempData["ErrorOrder"] = $"Deleted Order {order.Id}";
             await _orderRepository.ModelDeleteAsync(order);
             return RedirectToAction(nameof(Index));
         }

@@ -5,10 +5,23 @@
 }
 
 <h1>Index</h1>
+@if(ViewBag.Hidding){   
+    <p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if(TempData.Peek("ErrorProduct") != null)
+    {
+    <div class="alert alert-success">
+        <p>
+            @TempData["ErrorProduct"]
+        </p>
+
+    </div>
+
+    }
+    
+
 <table class="table">
     <thead>
         <tr>
@@ -48,12 +61,48 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Reviews)
             </td>
+            
+            
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                 
+                    @if(ViewBag.Hidding){
+                        string slash = " | ";
+                        <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                        @slash;
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        @slash;
+                        <a class="delete btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+
+                    else
+                        {
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        }
+
+
+           
+
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+@section Scripts{
+    <script> 
+       $(function (){ 
+           $("a.delete").click(function () {
+    if(!confirm("Confirm Delete")) return false;})
+          
+        
+    
+    });
+        
+        
+        
+
+
+   
+  
+    </script>
+}

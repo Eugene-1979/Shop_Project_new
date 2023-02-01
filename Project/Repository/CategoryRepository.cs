@@ -49,5 +49,21 @@ namespace Shop_Project.Repository
             await _context.SaveChangesAsync();
             }
 
+
+        public (bool, string) CheckModel(Category model, string method)
+            {
+
+        
+            if(
+            method.Equals("Create")
+            && 
+            _context.Categorys.ToList().Contains(model)
+            ) return (false, $"Category {model.Name} is Exist");
+
+
+            return (true, $"{method} ok in {model.Name}");
+
+            }
+
         }
     }

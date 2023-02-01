@@ -17,7 +17,15 @@ namespace Shop_Project.Models
 
         public List<Product> Products { get; set; } = new List<Product>();
 
+        public override bool Equals(object? obj)
+            {
+            return obj is Category category &&
+                   Name == category.Name;
+            }
 
-
+        public override int GetHashCode()
+            {
+            return HashCode.Combine(Name);
+            }
         }
     }

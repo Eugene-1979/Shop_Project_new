@@ -55,14 +55,14 @@ namespace Shop_Project.Repository
             await _context.SaveChangesAsync();
         }
 
-        public (bool, string) CheckModel(Product model)
+        public (bool,string) CheckModel(Product model,string method)
         {
 
-            if (model.Sale < ShopRepository._minSale || model.Sale > ShopRepository._maxSale) return (false, "incorrect sale");
-            if (_context.Products.ToList().Contains(model)) return (false, "Product is Exist");
+            if (model.Sale < ShopRepository._minSale || model.Sale > ShopRepository._maxSale) return  (false,$"incorrect sale in {model.Name}");
+            if (method.Equals("Create")&& _context.Products.ToList().Contains(model)) return (false,$"Product {model.Name} is Exist");
 
 
-            return (true, "ok");
+            return  (true,$"{method} ok in {model.Name}");
 
         }
 

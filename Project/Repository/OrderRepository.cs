@@ -13,7 +13,9 @@ namespace Shop_Project.Repository
             _context = context;
             }
 
-       async public Task ModelAddAsync(Order model)
+      
+
+        async public Task ModelAddAsync(Order model)
             {
             _context.Add(model);
             await _context.SaveChangesAsync();
@@ -50,31 +52,47 @@ namespace Shop_Project.Repository
             await _context.SaveChangesAsync();
             }
 
-       /* public bool CheckModel(IFormCollection formcollection,out Order order)
+
+
+        public (bool, string) CheckModel(Order model, string method)
             {
-            foreach(var item in formcollection)
-                {
-                List<Enrollment> enrollments = new List<Enrollment>();
-                string key = item.Key;
-                if(int.TryParse(key, out int value) && item.Value=="true" ) {
-                    foreach(var item1 in formcollection)
-                        {
-                        if(item1.Key.Equals("_" + value)) {
-                        
-                        tr
-
-                        enrollments.Add(new Enrollment() {ProductId=value,Count=item1.Value })
-                        
-                        }
-                        }
-                
-                }
-             
-                }
+            throw new NotImplementedException();
+            }
 
 
 
 
-            }*/
+
+
+
+
+
+
+        /* public bool CheckModel(IFormCollection formcollection,out Order order)
+             {
+             foreach(var item in formcollection)
+                 {
+                 List<Enrollment> enrollments = new List<Enrollment>();
+                 string key = item.Key;
+                 if(int.TryParse(key, out int value) && item.Value=="true" ) {
+                     foreach(var item1 in formcollection)
+                         {
+                         if(item1.Key.Equals("_" + value)) {
+
+                         tr
+
+                         enrollments.Add(new Enrollment() {ProductId=value,Count=item1.Value })
+
+                         }
+                         }
+
+                 }
+
+                 }
+
+
+
+
+             }*/
         }
     }

@@ -25,7 +25,9 @@ namespace Shop_Project.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-              return _customerRepository._context.Customers != null ? 
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+
+            return _customerRepository._context.Customers != null ? 
                           View(await _customerRepository.ModelAllAsync()) :
                           Problem("Entity set 'AppDbContent.Customers'  is null.");
         }
@@ -143,7 +145,7 @@ namespace Shop_Project.Controllers
             }
             var customer = await _customerRepository.ModelIdAsync(id);
 
-
+            TempData["ErrorCustomer"] = $"Deleted Customer{customer.Name}";
             await _customerRepository.ModelDeleteAsync(customer);
             return RedirectToAction(nameof(Index));
         }

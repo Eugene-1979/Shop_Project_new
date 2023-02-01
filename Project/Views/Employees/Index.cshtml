@@ -5,10 +5,22 @@
 }
 
 <h1>Employee</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
+@if (ViewBag.Hidding)
+    {
+    <p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
+    }
+@if(TempData.Peek("ErrorEmployee") != null)
+    {
+    <div class="alert alert-success">
+        <p>
+            @TempData["ErrorEmployee"]
+        </p>
+
+    </div>
+
+    }
 <table class="table">
     <thead>
         <tr>
@@ -37,9 +49,23 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                    @if(ViewBag.Hidding)
+                        {
+                        <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+
+                        }
+
+                    else
+                        {
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        }
+
+
+                  
             </td>
         </tr>
 }
