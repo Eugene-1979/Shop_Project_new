@@ -52,8 +52,12 @@
 
                     @if(ViewBag.Hidding)
                         {
+                        string slash = " | ";
                         <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        @slash;
                         <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        @slash
+                        ;
                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
 
 

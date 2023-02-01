@@ -51,9 +51,12 @@
 
                     @if(ViewBag.Hidding)
                         {
-                             @Html.ActionLink("Edit", "Edit", new { @class="btn btn-success" }) 
-                    @Html.ActionLink("Details", "Details", new { @class="btn btn-info"}) 
-                @Html.ActionLink("Delete", "Delete", new { @class="btn btn-danger"})
+                        string slash = " | ";
+                        @Html.ActionLink("Edit", "Edit", new { @class="btn btn-success" })
+                        @slash;
+                        @Html.ActionLink("Details", "Details", new { @class="btn btn-info"}) 
+                @slash;
+                        @Html.ActionLink("Delete", "Delete", new { @class="btn btn-danger"})
 
 
                         }
