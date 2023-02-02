@@ -22,7 +22,7 @@
     }
     
 
-<table class="table">
+<table class="table sorting" id="pages">
     <thead>
         <tr>
             <th>
@@ -45,8 +45,10 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr id="id_@item.Id" class="@item.Name">
             <td>
+                                        <span class="ui-icon ui-icon-disk">  </span>                
+
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
@@ -90,13 +92,8 @@
 
 @section Scripts{
     <script> 
-       $(function (){ 
-           $("a.delete").click(function () {
-    if(!confirm("Confirm Delete")) return false;})
-          
-        
-    
-    });
+      
+
         
         
         

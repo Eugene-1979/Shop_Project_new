@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+/*using System.Web.Mvc;*/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -190,7 +191,26 @@ namespace Shop_Project.Controllers
         private bool ProductExists(int id) => _productRepository.ModelExist(id);
 
 
+      /*  Создаём метод сортировки*/
+     /* Get*/
+     [HttpPost]
+        public void Action(int [] mas)
+            {
+            int count = 1;
 
+
+            foreach(var item in mas)
+                {
+                Product? product = _productRepository._context.Products.Find(item);
+                }
+
+
+
+
+
+
+
+            }
 
         /*Валидациия string*//*
         public JsonResult CheckEmptyString(string message) => Json(true);*/

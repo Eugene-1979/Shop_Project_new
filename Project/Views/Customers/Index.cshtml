@@ -20,10 +20,11 @@
     </div>
 
     }
-<table class="table">
+<table class="table sorting" id="pages">
     <thead>
         <tr>
             <th>
+               
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -34,8 +35,9 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            <tr id="id_@item.Id" class="@item.Name">
             <td>
+                    <span class="ui-icon ui-icon-disk">  </span>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
