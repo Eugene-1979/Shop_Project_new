@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop_Project.Db;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Shop_Project.Models
     {
@@ -27,12 +28,14 @@ namespace Shop_Project.Models
 
       /*  [Required(ErrorMessage = "Input about")]
         [StringLength(150, MinimumLength = 0, ErrorMessage = "incorrect length name")]*/
+       [AllowHtml]
         public string About { get; set; }
 
 
-      /*  [StringLength(50, MinimumLength = 0, ErrorMessage = "incorrect length name")]
-        [Required(ErrorMessage = "Input Review")]*/
+        /*  [StringLength(50, MinimumLength = 0, ErrorMessage = "incorrect length name")]
+          [Required(ErrorMessage = "Input Review")]*/
         /*   [Remote("CheckEmptyString", "Products")]*/
+        [AllowHtml]
         public string Reviews { get; set; }
 
         public List<Order> Orders { get; set; } = new List<Order>();

@@ -27,6 +27,7 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
+                <a class="btn btn-success" asp-action="Action" asp-route-str="Name">Asc</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Sale)
@@ -58,10 +59,10 @@
                 @Html.DisplayFor(modelItem => item.Category.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.About)
+                @Html.Raw(item.About)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Reviews)
+                @Html.Raw(item.Reviews)
             </td>
             
             

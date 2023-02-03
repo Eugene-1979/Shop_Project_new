@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop_Project.Db;
 using Shop_Project.Models;
+using Shop_Project.MyUtils;
 using Shop_Project.Repository;
 
 namespace Shop_Project.Controllers
@@ -193,15 +194,19 @@ namespace Shop_Project.Controllers
 
       /*  Создаём метод сортировки*/
      /* Get*/
-     [HttpPost]
-        public void Action(int [] mas)
+    
+        public void Action(string str)
             {
-            int count = 1;
+
+            
+
+            var products= _productRepository._context.Products;
+
+         var ttt=   Sort.OrderingHelper(products, str, true, true);
 
 
-            foreach(var item in mas)
-                {
-                Product? product = _productRepository._context.Products.Find(item);
+        
+            View("Index",ttt.ToList());
                 }
 
 
@@ -210,7 +215,7 @@ namespace Shop_Project.Controllers
 
 
 
-            }
+            
 
         /*Валидациия string*//*
         public JsonResult CheckEmptyString(string message) => Json(true);*/

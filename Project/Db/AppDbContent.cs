@@ -1,6 +1,6 @@
 ﻿using Shop_Project.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Shop_Project.Models.Data;
 
 namespace Shop_Project.Db
     {
@@ -47,6 +47,9 @@ namespace Shop_Project.Db
 
        
         }
+        public virtual DbSet<SideBarDto> SideBarDtos { get; set; }
+        public virtual DbSet<PagesDto> PagesDtos { get; set; }
+
 
         public virtual DbSet<Product> Products { get; set; } 
         public virtual DbSet<Category> Categorys { get; set; }

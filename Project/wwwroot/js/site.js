@@ -14,18 +14,21 @@ $(function () {
         placeholder: "ui-state-highlight",
         update: function () {
             var ids = $("table#pages tbody").sortable("serialize");
-
-
-
-
-
             var url = "";
-
-
-
             $.post(url, id, function (data) { });
         }
-
     });
+
+  
+
+     
+     
+
+
+
+
+
+
+
 
 });

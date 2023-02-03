@@ -117,21 +117,21 @@ app.MapRazorPages();
 
 
 
-/*using(var scope = app.Services.CreateScope())
+using(var scope = app.Services.CreateScope())
     {
-    AppDbContent context = scope.ServiceProvider.GetRequiredService<AppDbContent>();
+/*    AppDbContent context = scope.ServiceProvider.GetRequiredService<AppDbContent>();
 
 
-    if(context.Categorys.Count() == 0) { DbObjects.Initial(context); }
+    if(*//*context.Categorys.Count() == 0*//*true) { DbObjects.Initial(context); }*/
 
-    context.Products.RemoveRange(context.Products);
+  /*  context.Products.RemoveRange(context.Products);
     context.Categorys.RemoveRange(context.Categorys);
     context.Customers.RemoveRange(context.Customers);
     context.Employees.RemoveRange(context.Employees);
     context.Orders.RemoveRange(context.Orders);
 
-    context.SaveChanges();
-    }*/
+    context.SaveChanges();*/
+    }
 
 app.Run();
 public partial class Program { }

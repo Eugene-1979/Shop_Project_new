@@ -14,10 +14,15 @@
 	
 		<InternalsVisibleTo Include="$(AssemblyName).Nunit" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Include="RoxyFileman-1.4.5-net\fileman\web.config" />
+	</ItemGroup>
 
   <ItemGroup>	  
     <PackageReference Include="Bogus" Version="34.0.2" />	  
-    <PackageReference Include="jQuery.UI.Core" Version="1.8.9" />
+    <PackageReference Include="CKEditor" Version="3.6.4" />	  
+    <PackageReference Include="jQuery.UI.Core" Version="1.8.9" />	  
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
 
 
 
@@ -30,7 +35,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Admin\" />
+    <Folder Include="RoxyFileman-1.4.5-net\fileman\aspnet_client\system_web\2_0_50727\" />
+    <Folder Include="RoxyFileman-1.4.5-net\fileman\aspnet_client\system_web\4_0_30319\" />
+    <Folder Include="RoxyFileman-1.4.5-net\fileman\tmp\" />
+    <Folder Include="RoxyFileman-1.4.5-net\fileman\Uploads\Documents\" />
+    <Folder Include="RoxyFileman-1.4.5-net\fileman\Uploads\FLV\" />
   </ItemGroup>
 
 

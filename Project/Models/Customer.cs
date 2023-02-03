@@ -12,7 +12,7 @@ namespace Shop_Project.Models
         [EmailAddress]
         public string Email { get; set; }
 
-
+        public int ? Phone { get; set; }
 
         public List<Order> Orders { get; set; }=new List<Order>();
    
