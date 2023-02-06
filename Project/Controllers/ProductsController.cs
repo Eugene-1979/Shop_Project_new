@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 /*using System.Web.Mvc;*/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Shop_Project.Db;
 using Shop_Project.Models;
 using Shop_Project.MyUtils;
@@ -28,8 +30,8 @@ namespace Shop_Project.Controllers
         public async Task<IActionResult> Index()
         {
 
-        
-            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+
+            ViewData["Hidding"] = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
 
        
             return View(await _productRepository.ModelAllAsync());
@@ -64,7 +66,7 @@ namespace Shop_Project.Controllers
         // POST: Products/Create
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+/*        [ValidateAntiForgeryToken]*/
         public async Task<IActionResult> Create([Bind("Id,Name,Sale,CategoryId,About,Reviews")] Product product)
         {
 
@@ -195,18 +197,12 @@ namespace Shop_Project.Controllers
       /*  Создаём метод сортировки*/
      /* Get*/
     
-        public void Action(string str)
+        public async Task<IActionResult> Sorting(string str,bool asc)
             {
-
-            
-
-            var products= _productRepository._context.Products;
-
-         var ttt=   Sort.OrderingHelper(products, str, true, true);
-
-
-        
-            View("Index",ttt.ToList());
+            var products= _productRepository._context.Products.Include(q=>q.Category);
+            ICollection<Product> productssort = products.MySorting(str, asc);      
+            ViewBag.Hidding= ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+            return  View("Index", productssort);
                 }
 
 

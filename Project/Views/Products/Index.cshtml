@@ -5,10 +5,55 @@
 }
 
 <h1>Index</h1>
-@if(ViewBag.Hidding){   
+@*@if(ViewBag.Hidding){   
     <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
-</p>}
+</p>
+}*@
+
+@if(ViewBag.Hidding)
+    {
+    <div classs="new-cat">
+        <div class="inputbtn-group mb-3" style="display:flex">
+            <div class="input-group-text">
+
+                <a class="btn btn-primary" entity="Products" id="newcata" asp-action="Create">Create New Product</a>
+                <span class="ajax-text">
+
+                    <img src="~/content/ajax-loader.gif" height="50" />
+                </span>
+            </div>
+            <input type="text" id="newcatname" class="form-control" />
+        </div>
+
+    </div>
+    }
+
+
+
+@if(ViewBag.Hidding)
+    {
+    <div classs="new-cat">
+        <div class="inputbtn-group mb-3" style="display:flex">
+            <div class="input-group-text">
+                <span class="input-group-text" id="inputGroup-sizing-default">Product Name </span>
+
+            </div>
+            <input type="text" id="newcatname" class="form-control" />
+        </div>
+        <p>
+            <a class="btn btn-primary" id="newcata" asp-action="Create">Create New Product</a>
+            <span class="ajax-text">
+
+                <img src="~/content/ajax-loader.gif" height="50" />
+            </span>
+        </p>
+    </div>
+    }
+
+
+
+
 
 @if(TempData.Peek("ErrorProduct") != null)
     {
@@ -25,23 +70,38 @@
 <table class="table sorting" id="pages">
     <thead>
         <tr>
-            <th>
+            <th >
                 @Html.DisplayNameFor(model => model.Name)
-                <a class="btn btn-success" asp-action="Action" asp-route-str="Name">Asc</a>
+                <br>
+                <a class="btn btn-success" asp-action="Sorting" asp-route-str="Name" asp-route-asc="true">Asc</a>
+                <a class="btn btn-secondary" asp-action="Sorting" asp-route-str="Name" asp-route-asc="false">Desc</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Sale)
+                <br>
+                <a class="btn btn-success" asp-action="Sorting" asp-route-str="Sale" asp-route-asc="true">Asc</a>
+                <a class="btn btn-secondary" asp-action="Sorting" asp-route-str="Sale" asp-route-asc="false">Desc</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Category)
+                <br>
+                <a class="btn btn-success" asp-action="Sorting" asp-route-str="Category" asp-route-asc="true">Asc</a>
+                <a class="btn btn-secondary" asp-action="Sorting" asp-route-str="Category" asp-route-asc="false">Desc</a>
             </th>
-            <th>
+            <th >
                 @Html.DisplayNameFor(model => model.About)
+                <br>
+                <a class="btn btn-success" asp-action="Sorting" asp-route-str="About" asp-route-asc="true">Asc</a>
+                <a class="btn btn-secondary" asp-action="Sorting" asp-route-str="About" asp-route-asc="false">Desc</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Reviews)
+                <br>
+                <a class="btn btn-success" asp-action="Sorting" asp-route-str="Reviews" asp-route-asc="true">Asc</a>
+                <a class="btn btn-secondary" asp-action="Sorting" asp-route-str="Reviews" asp-route-asc="false">Desc</a>
+
             </th>
-            <th></th>
+           
         </tr>
     </thead>
     <tbody>
@@ -50,13 +110,13 @@
             <td>
                                         <span class="ui-icon ui-icon-disk">  </span>                
 
-                @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Sale)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category.Id)
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 @Html.Raw(item.About)
@@ -67,8 +127,9 @@
             
             
             <td>
-                 
-                    @if(ViewBag.Hidding){
+
+                    @if(ViewBag.Hidding)
+                        {
                         string slash = " | ";
                         <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
                         @slash;
@@ -91,16 +152,4 @@
     </tbody>
 </table>
 
-@section Scripts{
-    <script> 
-      
 
-        
-        
-        
-
-
-   
-  
-    </script>
-}

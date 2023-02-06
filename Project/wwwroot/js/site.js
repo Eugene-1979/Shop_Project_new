@@ -19,7 +19,27 @@ $(function () {
         }
     });
 
-  
+    $("#newcata").click(function (e) {
+        var newCatTextInput = $("#newcatname"); /*Класс текстового поля ввода*/
+       var temp= $(this).attr('entity')
+       var url = "/"+temp+"/Create";
+        
+        var catName = newCatTextInput.val();
+
+        if (catName == "") { $.get(url); }
+
+        else { e.preventDefault();
+                                 
+            $.post(url, { name: catName, salary: 0 });
+        }
+       
+
+
+
+
+
+
+    });
 
      
      

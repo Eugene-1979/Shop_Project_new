@@ -10,7 +10,10 @@
                 @Html.DisplayNameFor(model => model.Product)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order)
+                @Html.DisplayNameFor(model => model.Product.About)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Sale)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Count)
@@ -24,8 +27,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Product.Name)
             </td>
+                <td>
+                    @Html.Raw(item.Product.About)
+                </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Order.Id)
+                @Html.DisplayFor(modelItem => item.Product.Sale)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Count)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shop_Project.Models
     {
-    public class Order
+    public class Order :IComparable,IComparable<Order> 
         {
      
         public int Id { get; set; }
@@ -24,5 +24,14 @@ namespace Shop_Project.Models
 
         public List<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
 
+        public int CompareTo(object? obj)
+            {
+            return MyDate.CompareTo((obj as Order).MyDate);
+            }
+
+        public int CompareTo(Order? other)
+            {
+          return  MyDate.CompareTo(other.MyDate);
+            }
         }
     }

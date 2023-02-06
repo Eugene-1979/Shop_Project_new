@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop_Project.Db;
 using Shop_Project.Models;
+using Shop_Project.MyUtils;
 using Shop_Project.Repository;
 
 namespace Shop_Project.Controllers
@@ -29,9 +30,13 @@ namespace Shop_Project.Controllers
             {
 
             ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
-            return _categoryRepository._context.Categorys != null ?
-                        View(await _categoryRepository.ModelAllAsync()) : /*repository*/
-                        Problem("Entity set 'AppDbContent.Categorys'  is null.");
+
+
+            return _categoryRepository._context.Categorys != null?
+      
+             View(await _categoryRepository.ModelAllAsync()):
+                           Problem("Entity set 'AppDbContent.Categorys'  is null.");
+                        
             }
 
         // GET: Categories/Details/5
@@ -56,14 +61,15 @@ namespace Shop_Project.Controllers
             {
             return View();
             }
+     
 
         // POST: Categories/Create
        
         [HttpPost]
-        [ValidateAntiForgeryToken]
+      /*  [ValidateAntiForgeryToken]*/
         public async Task<IActionResult> Create([Bind("Id,Name,Salary")] Category category)
             {
-
+           /* Category category= new Category() { Name = name, Salary = salary };*/
             var temp = _categoryRepository.CheckModel(category, nameof(Create));
             string value = temp.Item2;
             TempData["ErrorCategory"] = value;
@@ -73,7 +79,8 @@ namespace Shop_Project.Controllers
             if(ModelState.IsValid && temp.Item1)
                 {
                await _categoryRepository.ModelAddAsync(category);/*repository*/
-                return RedirectToAction(nameof(Index));
+                /*  return RedirectToAction(nameof(Index));*/
+                return View("Index");
                 }
 
             Log.LogInformation($"Create {DateTime.Now.ToString("d")} {this.GetType().Name} {value}");
@@ -182,6 +189,15 @@ namespace Shop_Project.Controllers
 
         private bool CategoryExists(int id) => _categoryRepository.ModelExist(id); /*repository*/
 
+        /*  Создаём метод сортировки*/
+        /* Get*/
 
+        public async Task<IActionResult> Sorting(string str, bool asc)
+            {
+            var categories = _categoryRepository._context.Categorys;
+            ICollection<Category> categoriessort = categories.MySorting(str, asc);
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+            return View("Index", categoriessort);
+            }
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop_Project.Db;
 using Shop_Project.Models;
+using Shop_Project.MyUtils;
 using Shop_Project.Repository;
 
 namespace Shop_Project.Controllers
@@ -57,7 +58,7 @@ namespace Shop_Project.Controllers
         // POST: Enrollments/Create
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+      /*  [ValidateAntiForgeryToken]*/
         public async Task<IActionResult> Create([Bind("ProductId,OrderId,Count")] Enrollment enrollment)
         {
             if (ModelState.IsValid)
@@ -161,6 +162,17 @@ namespace Shop_Project.Controllers
 
         private bool EnrollmentExists(int id) => _enrollmentRepository.ModelExist(id);
 
+        /*  Создаём метод сортировки*/
+        /* Get*/
 
-    }
+        public async Task<IActionResult> Sorting(string str, bool asc)
+            {
+            var enrollments = _enrollmentRepository._context.Enrollment;
+            ICollection<Enrollment> enrollmentssort = enrollments.MySorting(str, asc);
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+            return View("Index", enrollmentssort);
+            }
+
+
+        }
 }

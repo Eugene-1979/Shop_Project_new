@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop_Project.Db;
 using Shop_Project.Models;
+using Shop_Project.MyUtils;
 using Shop_Project.Repository;
 
 namespace Shop_Project.Controllers
@@ -57,8 +58,8 @@ namespace Shop_Project.Controllers
 
         
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email")] Customer customer)
+       /* [ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +88,7 @@ namespace Shop_Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Phone")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -153,5 +154,17 @@ namespace Shop_Project.Controllers
         private bool CustomerExists(int id) => _customerRepository.ModelExist(id);
 
 
-    }
+
+        /*  Создаём метод сортировки*/
+        /* Get*/
+
+        public async Task<IActionResult> Sorting(string str, bool asc)
+            {
+            var customers = _customerRepository._context.Customers.Include(q=>q.Orders);
+            ICollection<Customer> customerssort = customers.MySorting(str, asc);
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+            return View("Index", customerssort);
+            }
+
+        }
 }

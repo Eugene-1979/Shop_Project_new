@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="RoxyFileman-1.4.5-net\fileman\aspnet_client\system_web\2_0_50727\" />
     <Folder Include="RoxyFileman-1.4.5-net\fileman\aspnet_client\system_web\4_0_30319\" />
     <Folder Include="RoxyFileman-1.4.5-net\fileman\tmp\" />

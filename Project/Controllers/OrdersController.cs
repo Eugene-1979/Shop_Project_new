@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop_Project.Db;
 using Shop_Project.Models;
+using Shop_Project.MyUtils;
 using Shop_Project.Repository;
 
 namespace Shop_Project.Controllers
@@ -41,11 +42,14 @@ namespace Shop_Project.Controllers
             {
                 return NotFound();
             }
-          ViewBag.Enrollment =_orderRepository._context.Enrollment.Where(q=>q.OrderId== id).ToList();
+            ViewBag.Enrollment = /*(await _orderRepository.ModelIdAsync(id)).Enrollments;*/
+          _orderRepository._context.Enrollment.Where(q => q.OrderId == id).
+          Include(q=>q.Product).
+          ToList();
 
 
 
-                
+
             return View(order);
         }
 
@@ -53,8 +57,8 @@ namespace Shop_Project.Controllers
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_orderRepository._context.Customers, "Id", "Name");
-            ViewData["EmployeeId"] = new SelectList(_orderRepository._context.Employees, "Id", "Email");
-            ViewBag.Products = _orderRepository._context.Products.ToList();
+            ViewData["EmployeeId"] = new SelectList(_orderRepository._context.Employees, "Id", "Name");
+            ViewBag.Products = _orderRepository._context.Products.Include(q=>q.Category).ToList();
             ViewBag.q = new List<int>() { 1, 2 };
             return View();
         }
@@ -62,7 +66,7 @@ namespace Shop_Project.Controllers
         // POST: Orders/Create
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+     /*   [ValidateAntiForgeryToken]*/
         public async Task<IActionResult> Create([Bind("Id,EmployeeId,MyDate,CustomerId")] Order order)
         {
 
@@ -94,7 +98,7 @@ namespace Shop_Project.Controllers
                 return NotFound();
             }
             ViewData["CustomerId"] = new SelectList(_orderRepository._context.Customers, "Id", "Name", order.CustomerId);
-            ViewData["EmployeeId"] = new SelectList(_orderRepository._context.Employees, "Id", "Email", order.EmployeeId);
+            ViewData["EmployeeId"] = new SelectList(_orderRepository._context.Employees, "Id", "Name", order.EmployeeId);
             return View(order);
         }
 
@@ -108,7 +112,8 @@ namespace Shop_Project.Controllers
             {
                 return NotFound();
             }
-
+            ModelState.Remove(nameof(Customer));
+            ModelState.Remove(nameof(Employee));
             if (ModelState.IsValid)
             {
                 try
@@ -169,6 +174,19 @@ namespace Shop_Project.Controllers
         }
 
         private bool OrderExists(int id) => _orderRepository.ModelExist(id);
+
+
+          /*  Создаём метод сортировки*/
+     /* Get*/
+    
+        public async Task<IActionResult> Sorting(string str,bool asc)
+            {
+            var orders= _orderRepository._context.Orders
+            .Include(q=>q.Customer).Include(q=>q.Employee);
+            ICollection<Order> ordersort = orders.MySorting(str, asc);      
+            ViewBag.Hidding= ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+            return  View("Index", ordersort);
+                }
 
 
     }

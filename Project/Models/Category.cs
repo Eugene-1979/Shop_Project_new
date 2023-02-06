@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Shop_Project.Models
     {
-    public class Category
+    public class Category:IComparable<Category> ,IComparable
         {
       
         public int Id { get; set; }
@@ -16,6 +16,16 @@ namespace Shop_Project.Models
         public int Salary { get; set; }
 
         public List<Product> Products { get; set; } = new List<Product>();
+
+        public int CompareTo(Category? other)
+            {
+          return  Name.CompareTo(other.Name);
+            }
+
+        public int CompareTo(object? obj)
+            {
+            return Name.CompareTo(((Category)obj).Name);
+            }
 
         public override bool Equals(object? obj)
             {

@@ -1,31 +1,20 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Shop_Project.MyUtils
     {
-    public class Sort
+    public static class Helps
         {
-        public static IQueryable<T> OrderingHelper<T>(IQueryable<T> source, string propertyName, bool descending, bool anotherLevel)
+        public static ICollection<T> MySorting <T>(this IQueryable<T> source,
+        string propertyName,
+        bool descending) where T :class
             {
-            if(!string.IsNullOrEmpty(propertyName))
-                try
-                    {
-                    ParameterExpression param = Expression.Parameter(typeof(T), string.Empty);
-                    MemberExpression property = Expression.PropertyOrField(param, propertyName);
-                    LambdaExpression sort = Expression.Lambda(property, param);
-
-                    MethodCallExpression call = Expression.Call(
-                        typeof(Queryable),
-                        (!anotherLevel ? "OrderBy" : "ThenBy") + (descending ? "Descending" : string.Empty),
-                        new[] { typeof(T), property.Type },
-                        source.Expression,
-                        Expression.Quote(sort));
-                    return (IQueryable<T>)source.Provider.CreateQuery<T>(call);
-                    }
-                catch
-                    {
-                    return null;
-                    }
-            return null;
+            System.Reflection.PropertyInfo? propertyInfo = typeof(T).GetProperty(propertyName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+            return descending ? source.AsEnumerable().OrderBy(q => propertyInfo.GetValue(q)).ToList() :
+            source.AsEnumerable().OrderByDescending(q => propertyInfo.GetValue(q)).ToList();
             }
+
+        
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop_Project.Db;
 using Shop_Project.Models;
+using Shop_Project.MyUtils;
 using Shop_Project.Repository;
 
 namespace Shop_Project.Controllers
@@ -57,9 +58,13 @@ namespace Shop_Project.Controllers
         // POST: Employees/Create
         
         [HttpPost]
-        [ValidateAntiForgeryToken]
+      /*  [ValidateAntiForgeryToken]*/
         public async Task<IActionResult> Create([Bind("Id,Name,Salary,Email")] Employee employee)
         {
+
+
+            ModelState.Remove("Email");
+      
             if (ModelState.IsValid)
             {
 
@@ -154,6 +159,17 @@ namespace Shop_Project.Controllers
 
         private bool EmployeeExists(int id) => _employeeRepository.ModelExist(id);
 
+        /*  Создаём метод сортировки*/
+        /* Get*/
 
-    }
+        public async Task<IActionResult> Sorting(string str, bool asc)
+            {
+            var employees = _employeeRepository._context.Employees.Include(q=>q.Orders);
+            ICollection<Employee> employeessort = employees.MySorting(str, asc);
+            ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
+            return View("Index", employeessort);
+            }
+
+
+        }
 }
