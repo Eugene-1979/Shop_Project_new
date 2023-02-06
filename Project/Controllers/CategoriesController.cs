@@ -30,11 +30,11 @@ namespace Shop_Project.Controllers
             {
 
             ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
-
+          var t=  await _categoryRepository.ModelAllAsync();
 
             return _categoryRepository._context.Categorys != null?
       
-             View(await _categoryRepository.ModelAllAsync()):
+             View(t):
                            Problem("Entity set 'AppDbContent.Categorys'  is null.");
                         
             }
