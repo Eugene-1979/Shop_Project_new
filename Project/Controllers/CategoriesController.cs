@@ -52,7 +52,9 @@ namespace Shop_Project.Controllers
                 {
                 return NotFound();
                 }
-
+            ViewBag.Product =_categoryRepository._context.Products.Where(q => q.CategoryId == id).
+   Include(q => q.Category).
+   ToList();
             return View(category);
             }
 

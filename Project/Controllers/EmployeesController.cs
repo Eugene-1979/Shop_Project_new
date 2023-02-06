@@ -46,6 +46,10 @@ namespace Shop_Project.Controllers
                 return NotFound();
             }
 
+            ViewBag.Order = _employeeRepository._context.Orders.Where(q => q.EmployeeId == id).
+Include(q => q.Customer).
+Include(q => q.Products).
+ToList();
             return View(employee);
         }
 

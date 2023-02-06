@@ -51,6 +51,19 @@ namespace Shop_Project.Controllers
                 return NotFound();
             }
 
+
+
+
+
+
+            ViewBag.Enrollment = 
+        _productRepository._context.Enrollment.Where(q => q.ProductId == id).
+        Include(q => q.Order).
+        ToList();
+
+
+
+
             return View(product);
         }
 
