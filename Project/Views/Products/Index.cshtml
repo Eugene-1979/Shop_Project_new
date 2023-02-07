@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Shop_Project.Models.Product>
-
+@*@using X.PagedList.Mvc.Bootstrap4.Core;*@
 @{
     ViewData["Title"] = "Index";
 }
@@ -32,7 +32,7 @@
 
 
 
-<select type="SelectCategory" name="SelectCategory">
+@*<select type="SelectCategory" name="SelectCategory">
 
     <option value="0">All </option>
     @foreach(var item in ViewBag.Category)
@@ -49,7 +49,7 @@
         }
 
     )
-</select>
+</select>*@
 
 
 
@@ -104,6 +104,22 @@
         </tr>
     </thead>
     <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @foreach (var item in Model) {
         <tr id="id_@item.Id" class="@item.Name">
             <td>
@@ -149,6 +165,14 @@
             </td>
         </tr>
 }
+        <div class="row">
+
+            <div class="col-md-12">
+                @Html.PagedListPager((IPagedList)ViewBag.products,page=>Url.Action("Index1","Products",new{page=page})/*, Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast*/)
+                @* <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index1" asp-controller="Products" />*@
+            </div>
+        </div>
+
     </tbody>
 </table>
 

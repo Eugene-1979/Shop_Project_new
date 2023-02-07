@@ -20,7 +20,7 @@ $(function () {
     });
 
 
-    $("#SelectCategory").on("change", function () {
+/*    $("#SelectCategory").on("change", function () {
         var url = $(this).val();
         if (url) {
             window.location = "Index1?catId="+url;}
@@ -28,7 +28,7 @@ $(function () {
 
         
 
-    });
+    });*/
 
 
 

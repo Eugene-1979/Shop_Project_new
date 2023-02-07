@@ -51,13 +51,33 @@ namespace Shop_Project.Controllers
 
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, int? catId)
         {
 
 
             ViewData["Hidding"] = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
 
-       
+
+            var pageNumber = page ?? 1;
+            /*            var listProd = await _productRepository.ModelAllAsync();*/
+
+            var listProd = (await _productRepository.ModelAllAsync()).
+            Where(q => catId == null || catId == 0 || q.CategoryId == catId).ToList();
+
+            ViewBag.Category = new SelectList(
+            _productRepository._context.Categorys.ToList(), "Id", "Name");
+
+            ViewBag.SelectedCat = catId.ToString();
+            IPagedList<Product> products = listProd.ToPagedList(pageNumber, 3);
+            ViewBag.products = products;
+
+            return View(listProd);
+
+
+
+
+
+
             return View(await _productRepository.ModelAllAsync());
         }
 
