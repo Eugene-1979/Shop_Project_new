@@ -32,7 +32,24 @@
 
 
 
+<select type="SelectCategory" name="SelectCategory">
 
+    <option value="0">All </option>
+    @foreach(var item in ViewBag.Category)
+        {
+        if(ViewBag.SelectedCat == item.Value)
+
+            {
+            <option selected="selected" value="@item.Value"> @item.Text  </option>
+            }
+        else
+            {
+            <option value="@item.Value"> @item.Text </option>
+            }
+        }
+
+    )
+</select>
 
 
 
@@ -49,7 +66,7 @@
     }
     
 
-<table class="table sorting" id="pages">
+<table class="table sorting d-grid " id="pages">
     <thead>
         <tr>
             <th >
@@ -103,6 +120,7 @@
             <td>
                 @Html.Raw(item.About)
             </td>
+               
             <td>
                 @Html.Raw(item.Reviews)
             </td>

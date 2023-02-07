@@ -123,8 +123,8 @@ using(var scope = app.Services.CreateScope())
 
 
     if(context.Products.Count() < 100) { DbObjects.Initial(context); }
-    /*
-        context.Products.RemoveRange(context.Products);
+
+    /*    context.Products.RemoveRange(context.Products);
         context.Categorys.RemoveRange(context.Categorys);
         context.Customers.RemoveRange(context.Customers);
         context.Employees.RemoveRange(context.Employees);

@@ -19,6 +19,20 @@ $(function () {
         }
     });
 
+
+    $("#SelectCategory").on("change", function () {
+        var url = $(this).val();
+        if (url) {
+            window.location = "Index1?catId="+url;}
+            return false;
+
+        
+
+    });
+
+
+
+
     $("#newcata").click(function (e) {
         var newCatTextInput = $("#newcatname"); /*Класс текстового поля ввода*/
        var temp= $(this).attr('entity')
@@ -30,7 +44,7 @@ $(function () {
 
         else { e.preventDefault();
                                  
-            $.post(url, { name: catName, salary: 0 });
+            $.post(url, { name: catName, salary: 0 },function(data) {});
         }
        
 

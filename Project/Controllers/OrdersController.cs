@@ -48,7 +48,7 @@ namespace Shop_Project.Controllers
           ToList();
 
 
-
+            ViewData["Hidding"] = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
 
             return View(order);
         }
@@ -99,6 +99,7 @@ namespace Shop_Project.Controllers
             }
             ViewData["CustomerId"] = new SelectList(_orderRepository._context.Customers, "Id", "Name", order.CustomerId);
             ViewData["EmployeeId"] = new SelectList(_orderRepository._context.Employees, "Id", "Name", order.EmployeeId);
+       
             return View(order);
         }
 

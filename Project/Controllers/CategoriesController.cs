@@ -26,11 +26,13 @@ namespace Shop_Project.Controllers
             }
 
         // GET: Categories
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
             {
 
             ViewBag.Hidding = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
-          var t=  await _categoryRepository.ModelAllAsync();
+        
+        /*    var t=  await _categoryRepository.ModelAllAsync();*/
+            var t = _categoryRepository._context.Categorys;
 
             return _categoryRepository._context.Categorys != null?
       
@@ -38,6 +40,7 @@ namespace Shop_Project.Controllers
                            Problem("Entity set 'AppDbContent.Categorys'  is null.");
                         
             }
+
 
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -55,6 +58,7 @@ namespace Shop_Project.Controllers
             ViewBag.Product =_categoryRepository._context.Products.Where(q => q.CategoryId == id).
    Include(q => q.Category).
    ToList();
+            ViewData["Hidding"] = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
             return View(category);
             }
 
@@ -80,9 +84,9 @@ namespace Shop_Project.Controllers
 
             if(ModelState.IsValid && temp.Item1)
                 {
-               await _categoryRepository.ModelAddAsync(category);/*repository*/
-                /*  return RedirectToAction(nameof(Index));*/
-                return View("Index");
+              await _categoryRepository.ModelAddAsync(category);/*repository*/
+                return RedirectToAction("Index1");
+                /*      return View("Index",_categoryRepository._context.Categorys);*/
                 }
 
             Log.LogInformation($"Create {DateTime.Now.ToString("d")} {this.GetType().Name} {value}");
@@ -103,6 +107,7 @@ namespace Shop_Project.Controllers
                 {
                 return NotFound();
                 }
+          
             return View(category);
             }
 

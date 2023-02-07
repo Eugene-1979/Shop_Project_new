@@ -9,10 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 using Shop_Project.Db;
 using Shop_Project.Models;
 using Shop_Project.MyUtils;
 using Shop_Project.Repository;
+using X.PagedList;
 
 namespace Shop_Project.Controllers
 {
@@ -25,6 +27,28 @@ namespace Shop_Project.Controllers
             _productRepository=productRepository;
             Log = log;
         }
+
+        public async Task<IActionResult> Index1(int ? page, int? catId) {
+
+            var pageNumber = page ?? 1;
+/*            var listProd = await _productRepository.ModelAllAsync();*/
+
+            var listProd = (await _productRepository.ModelAllAsync()).
+            Where(q => catId == null || catId == 0 || q.CategoryId == catId).ToList();
+
+            ViewBag.Category = new SelectList(
+            _productRepository._context.Categorys.ToList(), "Id", "Name");
+
+            ViewBag.SelectedCat = catId.ToString();
+            IPagedList<Product> products = listProd.ToPagedList(pageNumber, 3);
+            ViewBag.products = products;
+
+            return View(listProd);
+        }
+
+
+
+
 
         // GET: Products
         public async Task<IActionResult> Index()
@@ -62,7 +86,7 @@ namespace Shop_Project.Controllers
         ToList();
 
 
-
+            ViewData["Hidding"] = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
 
             return View(product);
         }
@@ -117,6 +141,7 @@ namespace Shop_Project.Controllers
             {
                 return NotFound();
             }
+        
             ViewData["CategoryId"] = new SelectList(_productRepository._context.Categorys, "Id", "Name", product.CategoryId);
             return View(product);
         }

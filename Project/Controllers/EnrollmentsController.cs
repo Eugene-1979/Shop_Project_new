@@ -44,6 +44,7 @@ namespace Shop_Project.Controllers
                 return NotFound();
             }
 
+        
             return View(enrollment);
         }
 
@@ -87,6 +88,7 @@ namespace Shop_Project.Controllers
             }
             ViewData["OrderId"] = new SelectList(_enrollmentRepository._context.Orders, "Id", "Id", enrollment.OrderId);
             ViewData["ProductId"] = new SelectList(_enrollmentRepository._context.Products, "Id", "Name", enrollment.ProductId);
+          
             return View(enrollment);
         }
 

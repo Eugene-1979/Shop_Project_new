@@ -15,7 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Customer)
             </th>
-            <th></th>
+            <th>
+                @Html.Display("Count")
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -30,11 +32,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Customer.Name)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            
         </tr>
 }
     </tbody>

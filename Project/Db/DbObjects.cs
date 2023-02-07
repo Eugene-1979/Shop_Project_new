@@ -6,9 +6,7 @@ namespace Shop_Project.Db
     public class DbObjects
         {
         static Faker faker = new Faker();
-
-
-
+        
         public static void Initial(AppDbContent content,
         int category = 10,
         int product = 10,
@@ -16,6 +14,25 @@ namespace Shop_Project.Db
         int customer = 10,
         int order = 10)
             {
+ string path = "F:\\Projects\\Project\\wwwroot\\image\\Cars\\";
+            string[] files = Directory.GetFiles(path);
+          files=  files.Select(q => q.Substring(27)).ToArray();
+           
+       /*     if(Directory.Exists(path)) { 
+             files= Directory.GetFiles(path); }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
             AppDbContent appDbContent = content;
 
             /*Category*/
@@ -30,7 +47,17 @@ namespace Shop_Project.Db
             var tproducts = tcategory.SelectMany(categ =>
              new Faker<Product>().
              RuleFor(q => q.Name, fak => fak.Random.Words()).
-             RuleFor(q => q.About, f => f.Lorem.Text()).
+             RuleFor(q => q.About, f =>
+
+           /*  "< p >< img alt = \"\" src = \"\\image\\Cars\\1560838551_1.jpg\" style = \"width:100px\"/ ></ p >"*/
+
+           /*\"\\image\\Cars\\1560838551_1.jpg\"*/
+
+             $"<p><img alt =\"\" src ={files[f.Random.Int(0,files.Length-1)]}  style =\"height:66px; width:100px\"/><br/><!--p--></p>"
+
+
+
+             ).
              RuleFor(q => q.Reviews, f => f.Lorem.Text()).
              RuleFor(q => q.Sale, fak => fak.Random.Int(1, 10000)).
              RuleFor(q => q.Category, fak => categ).

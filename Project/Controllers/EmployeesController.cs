@@ -50,6 +50,7 @@ namespace Shop_Project.Controllers
 Include(q => q.Customer).
 Include(q => q.Products).
 ToList();
+            ViewData["Hidding"] = ((User.IsInRole("Admin") || User.IsInRole("Moderator")));
             return View(employee);
         }
 
@@ -91,6 +92,7 @@ ToList();
             {
                 return NotFound();
             }
+          
             return View(employee);
         }
 
